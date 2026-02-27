@@ -1780,3 +1780,155 @@ img { max-width: 100%; display: block; }
   background: var(--surface-2); border: 1px solid var(--border);
   border-radius: 5px; padding: 2px 8px;
 }
+
+/* ============================================================
+   WIDGET REDESIGN — True bento hierarchy
+   ============================================================ */
+
+/* ── Hero: dominant widget, 2 rows tall ───────────────────── */
+.bento-hero {
+  grid-column: span 8;
+  grid-row: span 2;          /* KEY — spans 2 rows, twice the height */
+  display: flex;
+  flex-direction: column;
+  padding: 40px 44px 0;      /* no bottom padding — chart fills to edge */
+  overflow: hidden;
+  background: var(--surface);
+  position: relative;
+}
+
+/* Subtle accent wash behind the hero */
+.bento-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 10%, rgba(91,94,244,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* The number IS the widget */
+.hero-big-num {
+  font-size: clamp(5rem, 7.5vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  z-index: 1;
+}
+
+/* Chart fills remaining space, bleeds to card edges */
+.hero-chart-wrap {
+  flex: 1;
+  min-height: 200px;
+  margin: 24px -44px 0;      /* bleed left + right to card edges */
+  position: relative;
+}
+
+/* ── Snapshot cards: compact, no Chart.js, pure number ────── */
+.bento-snapshot {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 36px;
+  min-height: 190px;
+  background: var(--surface);
+}
+
+/* Metric-color top accent border */
+.bento-snapshot--follows  { border-top: 3px solid var(--c-yt);      }
+.bento-snapshot--published { border-top: 3px solid var(--c-podcast); }
+
+.snap-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.snap-value {
+  font-size: clamp(2.8rem, 4.5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 10px;
+}
+
+.snap-delta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.snap-sublabel {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 400;
+}
+
+.snap-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* Sparkline pushed to bottom of widget */
+.snap-sparkline {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.snap-sparkline svg {
+  width: 100%;
+  height: 36px;
+  opacity: 0.75;
+}
+
+/* ── Per-metric accent borders on bottom third cards ──────── */
+.bento-third--reach  { border-top: 3px solid var(--c-reach);  }
+.bento-third--leads  { border-top: 3px solid var(--c-leads);  }
+.bento-third--cost   { border-top: 3px solid var(--c-cost);   }
+
+/* Subtle tinted backgrounds */
+.bento-third--reach  { background: linear-gradient(180deg, rgba(14,165,233,0.025) 0%, var(--surface) 60%); }
+.bento-third--leads  { background: linear-gradient(180deg, rgba(245,158,11,0.025) 0%, var(--surface) 60%); }
+.bento-third--cost   { background: linear-gradient(180deg, rgba(239,108,48,0.025) 0%, var(--surface) 60%); }
+
+/* Publishing chart gets more height for full-width card */
+.chart-wrap--publishing { height: 240px; }
+
+/* ── Animation delays for new layout ─────────────────────── */
+.bento-hero               { animation-delay:  0ms;  }
+.bento-snapshot:nth-child(2) { animation-delay: 80ms; }
+.bento-snapshot:nth-child(3) { animation-delay: 140ms; }
+.bento-full               { animation-delay: 200ms; }
+.bento-third:nth-child(5) { animation-delay: 260ms; }
+.bento-third:nth-child(6) { animation-delay: 310ms; }
+.bento-third:nth-child(7) { animation-delay: 360ms; }
+
+/* ── Responsive collapses for new layout ─────────────────── */
+@media (max-width: 1200px) {
+  .bento-hero { grid-column: span 12; grid-row: span 1; margin: 0; padding: 36px 36px 0; }
+  .hero-chart-wrap { margin: 20px -36px 0; min-height: 220px; }
+  .bento-snapshot { grid-column: span 6; }
+}
+@media (max-width: 768px) {
+  .bento-snapshot { grid-column: 1 / -1; }
+  .bento-third--reach, .bento-third--leads, .bento-third--cost { grid-column: 1 / -1; }
+}

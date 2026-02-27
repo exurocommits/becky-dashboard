@@ -52,42 +52,50 @@
     <section id="view-dashboard" class="view">
       <div class="bento-grid">
 
-        <!-- HERO: Podcast Plays — 8 columns -->
+        <!-- HERO: Podcast Plays — 8 cols × 2 rows (dominant) -->
         <div class="bento-hero chart-card">
-          <div class="chart-card__header">
-            <div class="hero-header-left">
-              <div class="hero-eyebrow">Featured Metric · 12 Weeks</div>
-              <div class="hero-label">Podcast Plays</div>
-            </div>
-            <div class="chart-card__stat">
-              <div class="chart-stat-value" id="hero-value">—</div>
-              <span class="kpi-delta flat" id="hero-delta">—</span>
-            </div>
+          <div class="hero-meta-row">
+            <span class="hero-eyebrow">Podcast Plays · 12 Weeks</span>
+            <span class="kpi-delta flat" id="hero-delta">—</span>
           </div>
+          <div class="hero-big-num" id="hero-value">—</div>
           <div class="hero-chart-wrap">
             <canvas id="chart-plays"></canvas>
           </div>
         </div>
 
-        <!-- STAT STACK: Quick metrics — 4 columns -->
-        <div class="bento-stats chart-card">
-          <div class="bento-stats__title">This Week</div>
-          <div class="stat-stack" id="stat-stack"></div>
+        <!-- SNAPSHOT: IG Follows — compact, no chart -->
+        <div class="bento-snapshot bento-snapshot--follows chart-card">
+          <span class="snap-eyebrow">IG Follows</span>
+          <div class="snap-value" id="snap-follows">—</div>
+          <div class="snap-delta-row">
+            <span class="kpi-delta flat" id="snap-follows-delta">—</span>
+            <span class="snap-sublabel">vs last week</span>
+          </div>
+          <div class="snap-sparkline" id="spark-follows"></div>
         </div>
 
-        <!-- PUBLISHING VOLUME: Full width -->
+        <!-- SNAPSHOT: Content Published — breakdown widget -->
+        <div class="bento-snapshot bento-snapshot--published chart-card">
+          <span class="snap-eyebrow">Content Published</span>
+          <div class="snap-value" id="snap-published">—</div>
+          <div class="snap-pills" id="snap-published-pills"></div>
+          <div class="snap-sparkline" id="spark-published"></div>
+        </div>
+
+        <!-- PUBLISHING VOLUME: Full width stacked bar -->
         <div class="bento-full chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">Publishing Volume</span>
             <span class="chart-card__period">12 weeks · Podcast · Reels · YT Shorts</span>
           </div>
-          <div class="chart-wrap">
+          <div class="chart-wrap chart-wrap--publishing">
             <canvas id="chart-publishing"></canvas>
           </div>
         </div>
 
-        <!-- IG Reach — 4 columns -->
-        <div class="bento-third chart-card">
+        <!-- IG Reach — area chart, tinted bg -->
+        <div class="bento-third bento-third--reach chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">IG Reach</span>
             <div class="chart-card__stat">
@@ -100,8 +108,8 @@
           </div>
         </div>
 
-        <!-- Leads & DMs — 4 columns -->
-        <div class="bento-third chart-card">
+        <!-- Leads & DMs — bar chart -->
+        <div class="bento-third bento-third--leads chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">Leads &amp; DMs</span>
             <div class="chart-card__stat">
@@ -114,8 +122,8 @@
           </div>
         </div>
 
-        <!-- Production Cost — 4 columns -->
-        <div class="bento-third chart-card">
+        <!-- Production Cost — dual line, cost-tinted bg -->
+        <div class="bento-third bento-third--cost chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">Production Cost</span>
             <div class="chart-card__stat">

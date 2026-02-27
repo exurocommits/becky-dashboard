@@ -140,40 +140,46 @@ function renderHeroWidget() {
   }
 }
 
-// ── Stat Stack ───────────────────────────────────────────────
+// ── Snapshot Widgets ─────────────────────────────────────────
 
-var STAT_STACK_DEFS = [
-  { label: 'IG Reach',        getValue: function(w) { return w.igReach; },                              format: function(n) { return fmt(n, 'k'); },           color: '#0EA5E9', invertGood: false },
-  { label: 'IG Follows',      getValue: function(w) { return w.igFollows; },                            format: function(n) { return '+' + fmt(n); },           color: '#00B894', invertGood: false },
-  { label: 'Leads / DMs',     getValue: function(w) { return w.leads; },                                format: function(n) { return fmt(n); },                 color: '#F59E0B', invertGood: false },
-  { label: 'Total Published', getValue: function(w) { return w.podcastEps + w.reels + w.ytShorts; },    format: function(n) { return fmt(n) + ' pieces'; },     color: '#5B5EF4', invertGood: false }
-];
-
-function renderStatStack() {
-  var container = document.getElementById('stat-stack');
-  if (!container) return;
-
+function renderSnapshots() {
   var w = SCORECARD_DATA[selectedWeekIdx];
   var prev = selectedWeekIdx > 0 ? SCORECARD_DATA[selectedWeekIdx - 1] : null;
 
-  container.innerHTML = STAT_STACK_DEFS.map(function(def) {
-    var currVal = def.getValue(w);
-    var prevVal = prev ? def.getValue(prev) : null;
-    var pct = delta(currVal, prevVal, def.invertGood);
-    var cls = deltaClass(pct);
-    var lbl = deltaLabel(pct);
+  // IG Follows snapshot
+  var followsEl    = document.getElementById('snap-follows');
+  var followsDelta = document.getElementById('snap-follows-delta');
+  var followsSpark = document.getElementById('spark-follows');
 
-    return '<div class="stat-stack-item">' +
-      '<div class="stat-stack__meta">' +
-        '<span class="stat-stack__dot" style="background:' + def.color + '"></span>' +
-        '<span class="stat-stack__label">' + def.label + '</span>' +
-      '</div>' +
-      '<div class="stat-stack__right">' +
-        '<span class="stat-stack__value">' + def.format(currVal) + '</span>' +
-        '<span class="kpi-delta ' + cls + '">' + lbl + '</span>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  if (followsEl) countUp(followsEl, w.igFollows, '+');
+  if (followsDelta) {
+    var pctF = delta(w.igFollows, prev ? prev.igFollows : null, false);
+    followsDelta.className = 'kpi-delta ' + deltaClass(pctF);
+    followsDelta.textContent = deltaLabel(pctF);
+  }
+  if (followsSpark) {
+    var fHistory = SCORECARD_DATA.slice(0, selectedWeekIdx + 1).map(function(d) { return d.igFollows; });
+    followsSpark.innerHTML = buildSparkline(fHistory, '#00B894');
+  }
+
+  // Content Published snapshot
+  var pubEl    = document.getElementById('snap-published');
+  var pubPills = document.getElementById('snap-published-pills');
+  var pubSpark = document.getElementById('spark-published');
+  var total    = w.podcastEps + w.reels + w.ytShorts;
+
+  if (pubEl) countUp(pubEl, total);
+  if (pubPills) {
+    pubPills.innerHTML =
+      (w.podcastEps > 0 ? '<span class="output-pill podcast">' + w.podcastEps + ' ep' + (w.podcastEps > 1 ? 's' : '') + '</span>' : '') +
+      (w.reels     > 0 ? '<span class="output-pill reels">'   + w.reels     + ' reels</span>'   : '') +
+      (w.ytShorts  > 0 ? '<span class="output-pill yt">'      + w.ytShorts  + ' shorts</span>'  : '') +
+      (total === 0     ? '<span style="font-size:12px;color:var(--text-3)">No content</span>'    : '');
+  }
+  if (pubSpark) {
+    var pHistory = SCORECARD_DATA.slice(0, selectedWeekIdx + 1).map(function(d) { return d.podcastEps + d.reels + d.ytShorts; });
+    pubSpark.innerHTML = buildSparkline(pHistory, '#5B5EF4');
+  }
 }
 
 // ── Callout Updates (3 bottom chart headers) ─────────────────
@@ -529,7 +535,7 @@ function populateWeekSelector() {
   sel.addEventListener('change', function(e) {
     selectedWeekIdx = +e.target.value;
     renderHeroWidget();
-    renderStatStack();
+    renderSnapshots();
     updateCallouts();
     highlightSelectedWeek();
   });
@@ -574,7 +580,7 @@ function initTabs() {
 
 document.addEventListener('DOMContentLoaded', function() {
   renderHeroWidget();
-  renderStatStack();
+  renderSnapshots();
   updateCallouts();
   initCharts();
   highlightSelectedWeek();
