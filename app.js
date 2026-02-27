@@ -204,11 +204,11 @@ const LABELS = SCORECARD_DATA.map(w => fmtWeekLabel(w.weekOf));
 
 Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
 Chart.defaults.font.size = 11;
-Chart.defaults.color = '#606078';
-Chart.defaults.plugins.tooltip.backgroundColor = '#1E1E28';
-Chart.defaults.plugins.tooltip.titleColor = '#F0F0FF';
-Chart.defaults.plugins.tooltip.bodyColor = '#A0A0B8';
-Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.1)';
+Chart.defaults.color = '#6B6B80';
+Chart.defaults.plugins.tooltip.backgroundColor = '#FFFFFF';
+Chart.defaults.plugins.tooltip.titleColor = '#0F0F1A';
+Chart.defaults.plugins.tooltip.bodyColor = '#4A4A6A';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(0,0,0,0.10)';
 Chart.defaults.plugins.tooltip.borderWidth = 1;
 Chart.defaults.plugins.tooltip.cornerRadius = 8;
 Chart.defaults.plugins.tooltip.padding = { x: 12, y: 10 };
@@ -218,10 +218,10 @@ Chart.defaults.plugins.tooltip.displayColors = true;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
 Chart.defaults.plugins.legend.labels.boxHeight = 8;
-Chart.defaults.plugins.legend.labels.color = '#A0A0B8';
+Chart.defaults.plugins.legend.labels.color = '#4A4A6A';
 Chart.defaults.plugins.legend.labels.font = { size: 11 };
 
-const GRID_COLOR = 'rgba(255,255,255,0.04)';
+const GRID_COLOR = 'rgba(0,0,0,0.05)';
 
 function baseScales(tickFmt) {
   return {
@@ -294,7 +294,7 @@ function initCharts() {
         label: 'Podcast Plays',
         data: SCORECARD_DATA.map(w => w.podcastPlays),
         borderColor: getCSS('--c-podcast'),
-        backgroundColor: 'rgba(124,110,250,0.12)',
+        backgroundColor: 'rgba(91,94,244,0.08)',
         fill: true,
         tension: 0.35,
         pointRadius: 3,
