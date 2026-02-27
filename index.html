@@ -50,64 +50,80 @@
          VIEW 1 — DASHBOARD
          ═══════════════════════════════════════ -->
     <section id="view-dashboard" class="view">
+      <div class="bento-grid">
 
-      <!-- KPI Tiles -->
-      <div id="kpi-grid" class="kpi-grid section-gap"></div>
-
-      <!-- Charts: 2-col grid -->
-      <div class="chart-grid">
-
-        <!-- Publishing Volume — full width -->
-        <div class="chart-card full-width">
+        <!-- HERO: Podcast Plays — 8 columns -->
+        <div class="bento-hero chart-card">
           <div class="chart-card__header">
-            <span class="chart-card__title">Publishing Volume</span>
-            <span class="chart-card__period">12 weeks · Podcast · Reels · YT Shorts</span>
+            <div class="hero-header-left">
+              <div class="hero-eyebrow">Featured Metric · 12 Weeks</div>
+              <div class="hero-label">Podcast Plays</div>
+            </div>
+            <div class="chart-card__stat">
+              <div class="chart-stat-value" id="hero-value">—</div>
+              <span class="kpi-delta flat" id="hero-delta">—</span>
+            </div>
           </div>
-          <div class="chart-wrap" style="height:220px">
-            <canvas id="chart-publishing"></canvas>
-          </div>
-        </div>
-
-        <!-- Podcast Plays -->
-        <div class="chart-card">
-          <div class="chart-card__header">
-            <span class="chart-card__title">Podcast Plays</span>
-            <span class="chart-card__period">Weekly downloads</span>
-          </div>
-          <div class="chart-wrap" style="height:200px">
+          <div class="hero-chart-wrap">
             <canvas id="chart-plays"></canvas>
           </div>
         </div>
 
-        <!-- IG Reach -->
-        <div class="chart-card">
+        <!-- STAT STACK: Quick metrics — 4 columns -->
+        <div class="bento-stats chart-card">
+          <div class="bento-stats__title">This Week</div>
+          <div class="stat-stack" id="stat-stack"></div>
+        </div>
+
+        <!-- PUBLISHING VOLUME: Full width -->
+        <div class="bento-full chart-card">
+          <div class="chart-card__header">
+            <span class="chart-card__title">Publishing Volume</span>
+            <span class="chart-card__period">12 weeks · Podcast · Reels · YT Shorts</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart-publishing"></canvas>
+          </div>
+        </div>
+
+        <!-- IG Reach — 4 columns -->
+        <div class="bento-third chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">IG Reach</span>
-            <span class="chart-card__period">Weekly impressions</span>
+            <div class="chart-card__stat">
+              <div class="chart-stat-value" id="callout-reach">—</div>
+              <span class="kpi-delta flat" id="callout-reach-delta">—</span>
+            </div>
           </div>
-          <div class="chart-wrap" style="height:200px">
+          <div class="chart-wrap">
             <canvas id="chart-reach"></canvas>
           </div>
         </div>
 
-        <!-- Leads / DMs -->
-        <div class="chart-card">
+        <!-- Leads & DMs — 4 columns -->
+        <div class="bento-third chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">Leads &amp; DMs</span>
-            <span class="chart-card__period">Weekly inquiries</span>
+            <div class="chart-card__stat">
+              <div class="chart-stat-value" id="callout-leads">—</div>
+              <span class="kpi-delta flat" id="callout-leads-delta">—</span>
+            </div>
           </div>
-          <div class="chart-wrap" style="height:200px">
+          <div class="chart-wrap">
             <canvas id="chart-leads"></canvas>
           </div>
         </div>
 
-        <!-- Production Cost -->
-        <div class="chart-card">
+        <!-- Production Cost — 4 columns -->
+        <div class="bento-third chart-card">
           <div class="chart-card__header">
             <span class="chart-card__title">Production Cost</span>
-            <span class="chart-card__period">Weekly · 4-wk rolling avg</span>
+            <div class="chart-card__stat">
+              <div class="chart-stat-value" id="callout-cost">—</div>
+              <span class="kpi-delta flat" id="callout-cost-delta">—</span>
+            </div>
           </div>
-          <div class="chart-wrap" style="height:200px">
+          <div class="chart-wrap">
             <canvas id="chart-cost"></canvas>
           </div>
         </div>
@@ -120,10 +136,8 @@
          ═══════════════════════════════════════ -->
     <section id="view-scorecard" class="view">
       <div class="scorecard-header">
-        <div>
-          <div class="view-title">Weekly Scorecard</div>
-          <div class="view-subtitle">One card per week — most recent first</div>
-        </div>
+        <div class="view-title">Weekly Scorecard</div>
+        <div class="view-subtitle">12 weeks of performance — most recent first</div>
       </div>
       <div id="scorecard-grid" class="week-card-grid"></div>
     </section>
@@ -133,10 +147,8 @@
          ═══════════════════════════════════════ -->
     <section id="view-improvements" class="view">
       <div class="kanban-header">
-        <div>
-          <div class="view-title">Improvements Log</div>
-          <div class="view-subtitle">Track tweaks, fixes, and experiments by status</div>
-        </div>
+        <div class="view-title">Improvements Log</div>
+        <div class="view-subtitle">Track tweaks, fixes, and experiments by status</div>
       </div>
       <div id="kanban-board" class="kanban-board"></div>
     </section>
