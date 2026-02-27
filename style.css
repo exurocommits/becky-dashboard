@@ -1,0 +1,605 @@
+/* ============================================================
+   CONTENT WEEKLY SCORECARD — Swiss Design System
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ── Custom Properties ── */
+:root {
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing (8px base) */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  /* Colour — neutral */
+  --bg:        #F5F5F5;
+  --surface:   #FFFFFF;
+  --border:    #E8E8E8;
+  --border-md: #D1D1D1;
+  --text-1:    #111111;
+  --text-2:    #555555;
+  --text-3:    #999999;
+
+  /* Colour — semantic */
+  --up:    #16A34A;
+  --down:  #DC2626;
+  --flat:  #999999;
+
+  /* Colour — accent */
+  --accent: #5046E4;
+
+  /* Colour — chart palette */
+  --c-podcast: #5046E4;
+  --c-reels:   #E44646;
+  --c-yt:      #10B981;
+  --c-reach:   #7C3AED;
+  --c-leads:   #F59E0B;
+  --c-cost:    #EF4444;
+  --c-rolling: #F97316;
+
+  /* Kanban */
+  --lane-todo:        #F5F5F5;
+  --lane-inprogress:  #FEFCE8;
+  --lane-done:        #F0FDF4;
+  --lane-deferred:    #F8F8F8;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+
+  /* Shadow */
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font); background: var(--bg); color: var(--text-1); min-height: 100vh; }
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+svg { display: block; }
+
+/* ── Layout Shell ── */
+.shell {
+  display: grid;
+  grid-template-rows: 60px 1fr;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-6);
+}
+
+.header__brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.header__title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+}
+
+.header__subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.tab-btn {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.tab-btn:hover { color: var(--text-2); }
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── Week Selector ── */
+.week-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.week-selector label {
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.week-selector select {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-1);
+  background: var(--surface);
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius-sm);
+  padding: 4px var(--sp-3);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.week-selector select:focus { border-color: var(--accent); }
+
+/* ── View Container ── */
+.view-container { padding: var(--sp-5) var(--sp-6); max-width: 1440px; margin: 0 auto; }
+.view { display: none; }
+.view.active { display: block; }
+
+/* ============================================================
+   DASHBOARD VIEW
+   ============================================================ */
+
+/* ── KPI Grid ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-5);
+}
+
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px)  { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+  position: relative;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  margin-bottom: var(--sp-2);
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+
+.kpi-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-delta.up   { color: var(--up);   background: rgba(22, 163, 74, 0.10); }
+.kpi-delta.down { color: var(--down); background: rgba(220, 38, 38, 0.10); }
+.kpi-delta.flat { color: var(--flat); background: rgba(153,153,153, 0.10); }
+
+.kpi-sparkline {
+  margin-top: var(--sp-3);
+  opacity: 0.6;
+}
+
+/* ── Chart Grid ── */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+}
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow);
+}
+
+.chart-card.full-width { grid-column: 1 / -1; }
+
+.chart-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--sp-4);
+}
+
+.chart-card__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+}
+
+.chart-card__period {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.chart-wrap {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .chart-card.full-width { grid-column: 1; }
+}
+
+/* ============================================================
+   WEEKLY SCORECARD VIEW — Card Grid
+   ============================================================ */
+
+.scorecard-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--sp-5);
+}
+
+.view-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+
+.view-subtitle {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+.week-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--sp-4);
+}
+
+.week-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.week-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.week-card.is-latest {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.week-card.is-latest::before {
+  content: 'LATEST';
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--surface);
+  background: var(--accent);
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.week-card__date {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: var(--sp-3);
+  letter-spacing: -0.01em;
+}
+
+.week-card__output {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.output-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.output-pill.podcast { background: rgba(80,70,228,0.10); color: var(--c-podcast); }
+.output-pill.reels   { background: rgba(228,70,70,0.10); color: var(--c-reels); }
+.output-pill.yt      { background: rgba(16,185,129,0.10); color: var(--c-yt); }
+
+.week-card__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stat-row__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+}
+
+.stat-row__value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.week-card__note {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-2);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.week-card__cost {
+  margin-top: var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cost-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cost-hours {
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* ============================================================
+   IMPROVEMENTS LOG — Kanban
+   ============================================================ */
+
+.kanban-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--sp-5);
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .kanban-board { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .kanban-board { grid-template-columns: 1fr; }
+}
+
+.kanban-lane {
+  border-radius: var(--radius-lg);
+  padding: var(--sp-3);
+  min-height: 200px;
+}
+
+.kanban-lane--todo        { background: var(--lane-todo); border: 1px solid var(--border); }
+.kanban-lane--in-progress { background: var(--lane-inprogress); border: 1px solid #FDE68A; }
+.kanban-lane--done        { background: var(--lane-done); border: 1px solid #BBF7D0; }
+.kanban-lane--deferred    { background: var(--lane-deferred); border: 1px solid var(--border); }
+
+.kanban-lane__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-3);
+  padding: 0 var(--sp-1);
+}
+
+.kanban-lane__title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-2);
+}
+
+.kanban-lane__count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kanban-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-3);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: default;
+}
+
+.kanban-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.kanban-card:last-child { margin-bottom: 0; }
+
+.kanban-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+}
+
+.kanban-card__request {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-1);
+  line-height: 1.45;
+  margin-bottom: var(--sp-2);
+}
+
+.kanban-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+/* Priority Badges */
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+}
+
+.badge--p1 { background: #FEE2E2; color: #991B1B; }
+.badge--p2 { background: #FEF3C7; color: #92400E; }
+.badge--p3 { background: #DBEAFE; color: #1E40AF; }
+
+/* Area Tags */
+.area-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 7px;
+}
+
+/* Done date */
+.done-date {
+  font-size: 10px;
+  color: var(--up);
+  font-weight: 600;
+  margin-top: var(--sp-2);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger KPI cards */
+.kpi-card:nth-child(1) { animation-delay: 0ms; }
+.kpi-card:nth-child(2) { animation-delay: 60ms; }
+.kpi-card:nth-child(3) { animation-delay: 120ms; }
+.kpi-card:nth-child(4) { animation-delay: 180ms; }
+.kpi-card:nth-child(5) { animation-delay: 240ms; }
+.kpi-card:nth-child(6) { animation-delay: 300ms; }
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+.section-gap { margin-bottom: var(--sp-4); }
+.text-right { text-align: right; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
