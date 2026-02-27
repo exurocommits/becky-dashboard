@@ -111,6 +111,7 @@ const KPI_DEFS = [
     format: n => fmt(n),
     color: () => getCSS('--c-podcast'),
     invertGood: false,
+    accentHex: '#7C6EFA',
     sparkData: () => SCORECARD_DATA.map(w => w.podcastEps + w.reels + w.ytShorts)
   },
   {
@@ -120,6 +121,7 @@ const KPI_DEFS = [
     format: n => fmt(n, 'k'),
     color: () => getCSS('--c-reach'),
     invertGood: false,
+    accentHex: '#64B5F6',
     sparkData: () => SCORECARD_DATA.map(w => w.igReach)
   },
   {
@@ -129,6 +131,7 @@ const KPI_DEFS = [
     format: n => fmt(n),
     color: () => '#10B981',
     invertGood: false,
+    accentHex: '#4DD0A0',
     sparkData: () => SCORECARD_DATA.map(w => w.igFollows)
   },
   {
@@ -138,6 +141,7 @@ const KPI_DEFS = [
     format: n => fmt(n),
     color: () => getCSS('--c-podcast'),
     invertGood: false,
+    accentHex: '#7C6EFA',
     sparkData: () => SCORECARD_DATA.map(w => w.podcastPlays)
   },
   {
@@ -147,6 +151,7 @@ const KPI_DEFS = [
     format: n => fmt(n),
     color: () => getCSS('--c-leads'),
     invertGood: false,
+    accentHex: '#FFD54F',
     sparkData: () => SCORECARD_DATA.map(w => w.leads)
   },
   {
@@ -156,6 +161,7 @@ const KPI_DEFS = [
     format: n => fmt(n, 'usd'),
     color: () => getCSS('--c-cost'),
     invertGood: true,
+    accentHex: '#FF7043',
     sparkData: () => SCORECARD_DATA.map(w => w.prodCost),
     sub: () => {
       const r = rolling4wkCost(SCORECARD_DATA, selectedWeekIdx);
@@ -179,7 +185,7 @@ function renderKPIs() {
     const sub = def.sub ? `<div class="week-card__note" style="margin-top:6px;font-size:11px;font-style:normal;color:var(--text-3)">${def.sub()}</div>` : '';
 
     return `
-      <div class="kpi-card" style="animation-delay:${i*60}ms">
+      <div class="kpi-card" style="animation-delay:${i*50}ms; --kpi-accent:${def.accentHex}">
         <div class="kpi-label">${def.label}</div>
         <div class="kpi-value" data-target="${currVal}" data-format="${def.key}">
           ${def.format(currVal)}
@@ -198,17 +204,24 @@ const LABELS = SCORECARD_DATA.map(w => fmtWeekLabel(w.weekOf));
 
 Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
 Chart.defaults.font.size = 11;
-Chart.defaults.color = '#999999';
-Chart.defaults.plugins.tooltip.backgroundColor = '#111111';
-Chart.defaults.plugins.tooltip.cornerRadius = 6;
-Chart.defaults.plugins.tooltip.padding = { x: 10, y: 8 };
+Chart.defaults.color = '#606078';
+Chart.defaults.plugins.tooltip.backgroundColor = '#1E1E28';
+Chart.defaults.plugins.tooltip.titleColor = '#F0F0FF';
+Chart.defaults.plugins.tooltip.bodyColor = '#A0A0B8';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.1)';
+Chart.defaults.plugins.tooltip.borderWidth = 1;
+Chart.defaults.plugins.tooltip.cornerRadius = 8;
+Chart.defaults.plugins.tooltip.padding = { x: 12, y: 10 };
 Chart.defaults.plugins.tooltip.titleFont = { weight: '600', size: 11 };
 Chart.defaults.plugins.tooltip.bodyFont = { size: 11 };
+Chart.defaults.plugins.tooltip.displayColors = true;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
 Chart.defaults.plugins.legend.labels.boxHeight = 8;
+Chart.defaults.plugins.legend.labels.color = '#A0A0B8';
+Chart.defaults.plugins.legend.labels.font = { size: 11 };
 
-const GRID_COLOR = 'rgba(0,0,0,0.05)';
+const GRID_COLOR = 'rgba(255,255,255,0.04)';
 
 function baseScales(tickFmt) {
   return {
@@ -238,19 +251,21 @@ function initCharts() {
           label: 'Podcast Eps',
           data: SCORECARD_DATA.map(w => w.podcastEps),
           backgroundColor: getCSS('--c-podcast'),
-          borderRadius: { topLeft: 3, topRight: 3 },
+          borderRadius: 0,
           stack: 'pub'
         },
         {
           label: 'Reels',
           data: SCORECARD_DATA.map(w => w.reels),
           backgroundColor: getCSS('--c-reels'),
+          borderRadius: 0,
           stack: 'pub'
         },
         {
           label: 'YT Shorts',
           data: SCORECARD_DATA.map(w => w.ytShorts),
           backgroundColor: getCSS('--c-yt'),
+          borderRadius: { topLeft: 4, topRight: 4 },
           stack: 'pub'
         }
       ]
@@ -279,7 +294,7 @@ function initCharts() {
         label: 'Podcast Plays',
         data: SCORECARD_DATA.map(w => w.podcastPlays),
         borderColor: getCSS('--c-podcast'),
-        backgroundColor: 'rgba(80,70,228,0.08)',
+        backgroundColor: 'rgba(124,110,250,0.12)',
         fill: true,
         tension: 0.35,
         pointRadius: 3,
